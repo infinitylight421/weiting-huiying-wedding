@@ -119,8 +119,21 @@
   <!-- Floating Falling Petals Canvas -->
   <canvas id="petal-canvas"></canvas>
 
+  <!-- In-App Browser (Messenger / IG) Gentle Helper Banner -->
+  <div id="iabBanner" class="hidden fixed top-0 inset-x-0 z-50 bg-wedding-deep/95 text-white px-4 py-2.5 shadow-lg backdrop-blur-sm text-xs flex items-center justify-between border-b border-wedding-gold/40">
+    <div class="flex items-center gap-2 pr-2">
+      <i class="fa-solid fa-circle-info text-wedding-gold text-sm flex-shrink-0"></i>
+      <span class="leading-tight text-white/90">
+        若在 Messenger 聽不到鋼琴音樂，請點右上角<strong>「•••」</strong>選擇<strong>「在 Safari 開啟」</strong>
+      </span>
+    </div>
+    <button onclick="dismissIabBanner()" class="text-white/60 hover:text-white px-2 py-1 flex-shrink-0" aria-label="關閉提示">
+      <i class="fa-solid fa-xmark text-sm"></i>
+    </button>
+  </div>
+
   <!-- Top Floating Controls -->
-  <div class="fixed top-4 right-4 z-50 flex items-center space-x-2.5">
+  <div id="topControls" class="fixed top-4 right-4 z-40 flex items-center space-x-2.5 transition-all duration-300">
     <!-- Music Player Toggle -->
     <div class="relative">
       <button 
@@ -479,7 +492,7 @@
     </div>
   </div>
 
-  <!-- Toast Diagnostic Notification -->
+  <!-- Toast Notification -->
   <div id="toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-wedding-deep/95 text-white text-xs px-5 py-3 rounded-2xl shadow-2xl z-50 pointer-events-none opacity-0 transition-opacity duration-300 flex items-center gap-2 max-w-[90vw] text-center leading-relaxed">
     <i id="toastIcon" class="fa-solid fa-music text-wedding-gold flex-shrink-0"></i>
     <span id="toastMsg">訊息</span>
@@ -548,12 +561,28 @@
     setInterval(updateCountdown, 1000); updateCountdown();
 
     /* ========================================================
-       Robust Mobile Audio Controller with Diagnostic Toast
+       Audio Controller with In-App Browser Audio Wake-Up
        ======================================================== */
     const bgAudio = document.getElementById('bgAudio');
     const musicToggleBtn = document.getElementById('musicToggleBtn');
     const musicIcon = document.getElementById('musicIcon');
     const musicDot = document.getElementById('musicDot');
+    const iabBanner = document.getElementById('iabBanner');
+    const topControls = document.getElementById('topControls');
+
+    // 判斷是否為 Messenger / Facebook / Instagram 內建瀏覽器
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const isMessenger = /FBAN|FBAV|Messenger|Instagram/i.test(ua);
+
+    if (isMessenger && iabBanner) {
+      iabBanner.classList.remove('hidden');
+      if (topControls) topControls.style.top = '52px';
+    }
+
+    function dismissIabBanner() {
+      if (iabBanner) iabBanner.classList.add('hidden');
+      if (topControls) topControls.style.top = '16px';
+    }
 
     function setMusicUI(isPlaying) {
       if (isPlaying) {
@@ -565,28 +594,35 @@
       }
     }
 
-    // 監聽進度更新：若進度在跑，代表音訊正在輸出
     bgAudio.addEventListener('timeupdate', () => {
       if (!bgAudio.paused && bgAudio.currentTime > 0) {
         setMusicUI(true);
       }
     });
 
-    // 監聽錯誤回報
-    bgAudio.addEventListener('error', (e) => {
-      setMusicUI(false);
-      const err = bgAudio.error;
-      let reason = '讀取錯誤';
-      if (err) {
-        if (err.code === 3) reason = '解碼失敗 (請確認MP3為標準格式)';
-        else if (err.code === 4) reason = '找不到 bgm.mp3 檔案';
-        else reason = `錯誤代碼 ${err.code}`;
+    // 喚醒 WebKit AudioContext（穿透 In-App Browser 音訊封鎖核心技巧）
+    let wakeAudioCtx = null;
+    function wakeAudioSession() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+          if (!wakeAudioCtx) wakeAudioCtx = new AudioCtx();
+          if (wakeAudioCtx.state === 'suspended') {
+            wakeAudioCtx.resume();
+          }
+          // 播放極短無聲緩衝區喚醒揚聲器
+          const buffer = wakeAudioCtx.createBuffer(1, 1, 22050);
+          const source = wakeAudioCtx.createBufferSource();
+          source.buffer = buffer;
+          source.connect(wakeAudioCtx.destination);
+          source.start(0);
+        }
+      } catch (e) {
+        console.warn('AudioContext wake skipped');
       }
-      showToast(`❌ ${reason}`, 'fa-circle-exclamation', 5000);
-    });
+    }
 
     function toggleMusic() {
-      // 若目前正在播放，執行暫停
       if (!bgAudio.paused) {
         bgAudio.pause();
         setMusicUI(false);
@@ -594,27 +630,32 @@
         return;
       }
 
-      // 解鎖音量與非靜音
+      // 同步強制解除靜音與喚醒
       bgAudio.muted = false;
       bgAudio.volume = 1.0;
+      wakeAudioSession();
 
-      // 同步觸發播放（絕無 await / preventDefault）
       const playPromise = bgAudio.play();
 
       if (playPromise !== undefined) {
         playPromise.then(() => {
           setMusicUI(true);
-          const cur = Math.floor(bgAudio.currentTime);
-          showToast(`🎶 正在播放 (進度 ${cur}秒) - 若無聲音請將「控制中心媒體音量」拉大`, 'fa-music', 4500);
+          if (isMessenger) {
+            showToast('🎶 播放中！若無聲音請調大媒體音量，或點右上角「•••」在 Safari 開啟', 'fa-music', 4800);
+          } else {
+            showToast('🎶 正在播放背景音樂', 'fa-music', 3000);
+          }
         }).catch((err) => {
           setMusicUI(false);
-          console.error('Audio play failed:', err);
-          showToast(`❌ 播放受阻: ${err.name} (請在無痕模式重試)`, 'fa-triangle-exclamation', 5000);
+          if (isMessenger) {
+            showToast('💡 Messenger 限制了聲音，請點右上角「•••」在 Safari 開啟', 'fa-circle-info', 5000);
+          } else {
+            showToast('點擊播放失敗，請再試一次', 'fa-triangle-exclamation');
+          }
         });
       }
     }
 
-    // 綁定點擊事件
     musicToggleBtn.addEventListener('click', toggleMusic);
 
     // Utilities
