@@ -104,11 +104,11 @@
 </head>
 <body class="bg-pattern min-h-screen relative selection:bg-wedding-sky/30">
 
-  <!-- Background Music Audio Element (支援本地放置 Jesse T 鋼琴版 mp3) -->
-  <audio id="bgAudio" preload="auto" loop>
+  <!-- Background Music Audio Element (讀取同資料夾中的 Jesse T MP3) -->
+  <audio id="bgAudio" preload="auto" loop playsinline>
     <source src="jesse_t_you_complete_me.mp3" type="audio/mpeg">
-    <source src="you_complete_me.mp3" type="audio/mpeg">
     <source src="bgm.mp3" type="audio/mpeg">
+    <source src="you_complete_me.mp3" type="audio/mpeg">
   </audio>
 
   <!-- Floating Falling Petals Canvas -->
@@ -116,12 +116,11 @@
 
   <!-- Top Floating Controls -->
   <div class="fixed top-4 right-4 z-50 flex items-center space-x-2">
-    <!-- Music Player Toggle (已移除外部 Spotify 連結，純淨唱片按鈕) -->
-    <div class="relative">
-      <button id="musicToggleBtn" class="w-11 h-11 rounded-full bg-white/95 text-wedding-blue shadow-lg border border-wedding-sky/30 flex items-center justify-center transition-all hover:scale-105 active:scale-95" title="點擊播放/暫停婚禮背景音樂 (幾分之幾 鋼琴曲)">
+    <!-- Music Player Toggle -->
+    <div class="relative group">
+      <button id="musicToggleBtn" class="w-11 h-11 rounded-full bg-white/95 text-wedding-blue shadow-lg border border-wedding-sky/30 flex items-center justify-center transition-all hover:scale-105 active:scale-95" title="播放/暫停 Jesse T 婚禮鋼琴曲">
         <i id="musicIcon" class="fa-solid fa-compact-disc text-xl transition-colors duration-300"></i>
       </button>
-      <!-- Playing Indicator Dot -->
       <span id="musicDot" class="hidden absolute -top-0.5 -right-0.5 w-3 h-3 bg-wedding-rose rounded-full border-2 border-white animate-pulse"></span>
     </div>
 
@@ -131,7 +130,7 @@
     </button>
   </div>
 
-  <!-- Bottom Floating Navigation Bar (Mobile focused) -->
+  <!-- Bottom Floating Navigation Bar -->
   <div class="fixed bottom-5 inset-x-0 mx-auto max-w-sm px-4 z-40">
     <div class="glass-card rounded-full p-2 flex items-center justify-around shadow-2xl border border-wedding-gold/30">
       <a href="#events" class="flex items-center space-x-1 px-3 py-2 text-xs text-gray-600 hover:text-wedding-blue font-medium">
@@ -151,7 +150,6 @@
 
   <!-- Hero Section -->
   <header class="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 pt-12 pb-16 overflow-hidden">
-    <!-- Decorative top badge -->
     <div class="mb-4 inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/80 border border-wedding-sky/40 text-wedding-blue text-xs tracking-widest uppercase shadow-sm">
       <i class="fa-solid fa-sparkles text-wedding-gold"></i>
       <span>Wedding Invitation • 2026.10.10</span>
@@ -168,7 +166,7 @@
       <p class="mt-2 text-sm text-gray-500 font-display tracking-[0.3em] uppercase">Wei-Ting &amp; Hui-Ying</p>
     </div>
 
-    <!-- Featured Hero Photo Frame (Only Bride & Groom's Photo: 1-0026-r-2.jpg) -->
+    <!-- Featured Hero Photo -->
     <div class="relative w-full max-w-sm sm:max-w-md mx-auto aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border-4 border-white group bg-wedding-sand flex items-center justify-center">
       <img 
         id="heroPhoto"
@@ -177,7 +175,6 @@
         class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
         onerror="handleImageError(this)"
       />
-      <!-- Fallback / Preview Helper if local path cannot be accessed in browser sandbox -->
       <div id="photoPlaceholder" class="hidden absolute inset-0 bg-gradient-to-b from-sky-50 via-wedding-cream to-amber-50 p-6 flex-col items-center justify-center text-wedding-deep">
         <div class="w-16 h-16 rounded-full bg-wedding-lightSky flex items-center justify-center text-wedding-blue mb-3 shadow-inner">
           <i class="fa-solid fa-image text-2xl"></i>
@@ -189,21 +186,18 @@
           <span>點此載入您的照片預覽</span>
           <input type="file" accept="image/*" class="hidden" onchange="previewLocalPhoto(event)">
         </label>
-        <p class="text-[11px] text-gray-400 mt-3 max-w-xs leading-tight">
-          ※ 正式發布時，只需將本 HTML 與 1-0026-r-2.jpg 放置於同一資料夾即可直接顯示。
-        </p>
       </div>
 
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 pointer-events-none"></div>
       
-      <!-- Overlay couple quote -->
+      <!-- Overlay couple quote (dele 花語) -->
       <div class="absolute bottom-6 inset-x-6 text-white text-center">
         <p class="font-display italic text-xl tracking-wide text-amber-200">" 能與你相遇，我打從心底感到喜悅 "</p>
         <p class="text-xs text-white/90 mt-1">2026.10.09 排灣族單身夜 ✦ 10.10 婚禮午宴</p>
       </div>
     </div>
 
-    <!-- Wedding Countdown Timer -->
+    <!-- Countdown Timer -->
     <div class="w-full max-w-lg mx-auto mt-8">
       <p class="text-xs tracking-widest text-wedding-blue font-semibold uppercase mb-3 flex items-center justify-center gap-2">
         <span class="h-px w-8 bg-wedding-sky/50"></span>
@@ -238,10 +232,9 @@
     </a>
   </header>
 
-  <!-- Invitation Letter Section -->
+  <!-- Invitation Letter -->
   <section id="invitation-letter" class="py-14 px-4 max-w-2xl mx-auto">
     <div class="glass-card rounded-3xl p-6 sm:p-10 text-center relative border border-wedding-gold/20 shadow-xl overflow-hidden">
-      <!-- Decorative corner ornaments -->
       <div class="absolute -top-6 -left-6 w-20 h-20 bg-wedding-lightSky rounded-full opacity-60 pointer-events-none"></div>
       <div class="absolute -bottom-6 -right-6 w-20 h-20 bg-wedding-goldLight/30 rounded-full opacity-60 pointer-events-none"></div>
 
@@ -282,27 +275,23 @@
     </div>
   </section>
 
-  <!-- Events & Itinerary Section -->
+  <!-- Events -->
   <section id="events" class="py-12 px-4 max-w-4xl mx-auto">
     <div class="text-center mb-10">
       <span class="text-xs tracking-widest text-wedding-gold font-bold uppercase block mb-1">Ceremony &amp; Feast</span>
       <h2 class="text-3xl font-serif font-bold text-wedding-deep">婚禮時程與地點</h2>
-      <p class="text-xs sm:text-sm text-gray-500 mt-2">兩個充滿愛與感動的特別時刻，期待您的同樂</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
       
-      <!-- Event 1: Paiwan Bachelor Party -->
+      <!-- Event 1: Paiwan Party -->
       <div class="glass-card rounded-3xl p-6 sm:p-7 relative border-t-4 border-t-wedding-blue flex flex-col justify-between smooth-card shadow-lg">
         <div>
-          <!-- Tag -->
           <div class="flex items-center justify-between mb-4">
             <span class="px-3 py-1 bg-wedding-lightSky text-wedding-blue text-xs font-semibold rounded-full flex items-center gap-1.5">
               <i class="fa-solid fa-fire text-wedding-rose"></i> 排灣族傳統之夜
             </span>
-            <span class="text-xs font-serif font-bold text-wedding-deep bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
-              Day 1
-            </span>
+            <span class="text-xs font-serif font-bold text-wedding-deep bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">Day 1</span>
           </div>
 
           <h3 class="text-xl sm:text-2xl font-serif font-bold text-wedding-deep mb-2">排灣族單身 Party</h3>
@@ -313,57 +302,41 @@
           <div class="space-y-3 text-xs sm:text-sm text-gray-700 bg-white/70 p-4 rounded-2xl border border-gray-100 mb-5">
             <div class="flex items-start gap-3">
               <i class="fa-regular fa-calendar text-wedding-blue mt-1"></i>
-              <div>
-                <span class="font-bold text-wedding-deep">日期：</span>
-                <span>2026 年 10 月 9 日（五）</span>
-              </div>
+              <div><span class="font-bold text-wedding-deep">日期：</span><span>2026 年 10 月 9 日（五）</span></div>
             </div>
             <div class="flex items-start gap-3">
               <i class="fa-regular fa-clock text-wedding-blue mt-1"></i>
-              <div>
-                <span class="font-bold text-wedding-deep">時間：</span>
-                <span class="text-wedding-blue font-bold">19:00 – 21:00</span>
-              </div>
+              <div><span class="font-bold text-wedding-deep">時間：</span><span class="text-wedding-blue font-bold">19:00 – 21:00</span></div>
             </div>
             <div class="flex items-start gap-3">
               <i class="fa-solid fa-house text-wedding-blue mt-1"></i>
-              <div>
-                <span class="font-bold text-wedding-deep">地點：</span>
-                <span>新娘住家</span>
-              </div>
+              <div><span class="font-bold text-wedding-deep">地點：</span><span>新娘住家</span></div>
             </div>
             <div class="flex items-start gap-3">
               <i class="fa-solid fa-location-dot text-wedding-rose mt-1"></i>
-              <div>
-                <span class="font-bold text-wedding-deep">地址：</span>
-                <span id="addrParty">臺東縣金峰鄉歷坵村18-2號</span>
-              </div>
+              <div><span class="font-bold text-wedding-deep">地址：</span><span>臺東縣金峰鄉歷坵村18之2號 附近</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Action Buttons for Event 1 -->
         <div class="grid grid-cols-2 gap-2 pt-2">
-          <button onclick="copyToClipboard('臺東縣金峰鄉歷坵村18-2號', '新娘住家地址已複製！')" class="px-3 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-gray-700 transition flex items-center justify-center gap-1.5">
+          <button onclick="copyToClipboard('臺東縣金峰鄉歷坵村18之2號 附近', '新娘住家地址已複製！')" class="px-3 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-gray-700 transition flex items-center justify-center gap-1.5">
             <i class="fa-regular fa-copy"></i> 複製地址
           </button>
-          <a href="https://www.google.com/maps/search/?api=1&query=臺東縣金峰鄉歷坵村18-2號" target="_blank" rel="noopener noreferrer" class="px-3 py-2.5 rounded-xl bg-wedding-blue hover:bg-wedding-deep text-white text-xs font-semibold transition flex items-center justify-center gap-1.5 shadow-sm">
+          <a href="https://www.google.com/maps/search/?api=1&query=臺東縣金峰鄉歷坵村18之2號" target="_blank" rel="noopener noreferrer" class="px-3 py-2.5 rounded-xl bg-wedding-blue hover:bg-wedding-deep text-white text-xs font-semibold transition flex items-center justify-center gap-1.5 shadow-sm">
             <i class="fa-solid fa-map-location-dot"></i> Google 地圖
           </a>
         </div>
       </div>
 
-      <!-- Event 2: Wedding Banquet -->
+      <!-- Event 2: Banquet -->
       <div class="glass-card rounded-3xl p-6 sm:p-7 relative border-t-4 border-t-wedding-gold flex flex-col justify-between smooth-card shadow-lg">
         <div>
-          <!-- Tag -->
           <div class="flex items-center justify-between mb-4">
             <span class="px-3 py-1 bg-amber-50 text-wedding-gold text-xs font-semibold rounded-full flex items-center gap-1.5 border border-amber-200">
               <i class="fa-solid fa-tent text-amber-600"></i> 正式婚宴・戶外搭篷午宴
             </span>
-            <span class="text-xs font-serif font-bold text-wedding-gold bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">
-              Day 2
-            </span>
+            <span class="text-xs font-serif font-bold text-wedding-gold bg-amber-50 border border-amber-200 px-2.5 py-0.5 rounded-full">Day 2</span>
           </div>
 
           <h3 class="text-xl sm:text-2xl font-serif font-bold text-wedding-deep mb-2">婚禮午宴</h3>
@@ -374,36 +347,23 @@
           <div class="space-y-3 text-xs sm:text-sm text-gray-700 bg-white/70 p-4 rounded-2xl border border-gray-100 mb-5">
             <div class="flex items-start gap-3">
               <i class="fa-regular fa-calendar text-wedding-gold mt-1"></i>
-              <div>
-                <span class="font-bold text-wedding-deep">日期：</span>
-                <span>2026 年 10 月 10 日（六）國慶日</span>
-              </div>
+              <div><span class="font-bold text-wedding-deep">日期：</span><span>2026 年 10 月 10 日（六）國慶日</span></div>
             </div>
             <div class="flex items-start gap-3">
               <i class="fa-regular fa-clock text-wedding-gold mt-1"></i>
-              <div>
-                <span class="font-bold text-wedding-deep">時間：</span>
-                <span class="text-amber-700 font-bold">12:00（敬請準時入席）</span>
-              </div>
+              <div><span class="font-bold text-wedding-deep">時間：</span><span class="text-amber-700 font-bold">12:00（敬請準時入席）</span></div>
             </div>
             <div class="flex items-start gap-3">
               <i class="fa-solid fa-campground text-wedding-gold mt-1"></i>
-              <div>
-                <span class="font-bold text-wedding-deep">地點：</span>
-                <span class="font-semibold text-wedding-deep">小米學堂（戶外操場搭篷）</span>
-              </div>
+              <div><span class="font-bold text-wedding-deep">地點：</span><span class="font-semibold text-wedding-deep">小米學堂（戶外操場搭篷）</span></div>
             </div>
             <div class="flex items-start gap-3">
               <i class="fa-solid fa-location-dot text-wedding-rose mt-1"></i>
-              <div>
-                <span class="font-bold text-wedding-deep">地址：</span>
-                <span id="addrBanquet">臺東縣金峰鄉歷坵村42之2號</span>
-              </div>
+              <div><span class="font-bold text-wedding-deep">地址：</span><span>臺東縣金峰鄉歷坵村42之2號</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Action Buttons for Event 2 -->
         <div class="grid grid-cols-2 gap-2 pt-2">
           <button onclick="copyToClipboard('臺東縣金峰鄉歷坵村42之2號 小米學堂', '小米學堂地址已複製！')" class="px-3 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-gray-700 transition flex items-center justify-center gap-1.5">
             <i class="fa-regular fa-copy"></i> 複製地址
@@ -416,7 +376,7 @@
 
     </div>
 
-    <!-- Add to Calendar Shortcut -->
+    <!-- Calendar Shortcut -->
     <div class="mt-8 text-center">
       <button onclick="addToGoogleCalendar()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border border-wedding-sky/50 hover:border-wedding-blue text-wedding-blue text-xs font-semibold rounded-full shadow-sm hover:shadow transition">
         <i class="fa-brands fa-google"></i>
@@ -425,16 +385,14 @@
     </div>
   </section>
 
-  <!-- Traffic & Transportation Section -->
+  <!-- Traffic Section -->
   <section id="traffic" class="py-12 px-4 max-w-3xl mx-auto">
     <div class="text-center mb-10">
       <span class="text-xs tracking-widest text-wedding-blue font-bold uppercase block mb-1">Traffic Guide</span>
       <h2 class="text-3xl font-serif font-bold text-wedding-deep">交通方式與接駁資訊</h2>
-      <p class="text-xs sm:text-sm text-gray-500 mt-2">貼心指引，讓您的前來之旅舒適順暢</p>
     </div>
 
     <div class="space-y-6">
-      <!-- Car Route -->
       <div class="glass-card rounded-3xl p-6 sm:p-7 flex flex-col sm:flex-row items-start gap-5 shadow-md">
         <div class="w-12 h-12 rounded-2xl bg-blue-50 text-wedding-blue flex-shrink-0 flex items-center justify-center text-xl">
           <i class="fa-solid fa-car-side"></i>
@@ -445,14 +403,12 @@
             <span class="text-xs font-normal text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">備有專屬車位</span>
           </h3>
           <p class="text-sm text-gray-600 leading-relaxed">
-            導航設定至<strong>「小米學堂」</strong>（臺東縣金峰鄉歷坵村42之2號）。
-            <br>
+            導航設定至<strong>「小米學堂」</strong>（臺東縣金峰鄉歷坵村42之2號）。<br>
             現場皆備有充足且便利的停車空間，請安心停放愛車。
           </p>
         </div>
       </div>
 
-      <!-- Train & Shuttle -->
       <div class="glass-card rounded-3xl p-6 sm:p-7 flex flex-col sm:flex-row items-start gap-5 shadow-md border-l-4 border-l-amber-500">
         <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-700 flex-shrink-0 flex items-center justify-center text-xl">
           <i class="fa-solid fa-train"></i>
@@ -487,33 +443,28 @@
     </div>
     <p class="font-bold text-wedding-deep text-sm">顏瑋廷 &amp; 楊惠穎 敬邀</p>
     <p class="mt-1 text-gray-400">2026.10.09 ~ 2026.10.10 • 臺東金峰鄉歷坵村</p>
-    <p class="mt-2 text-[11px] text-gray-400">期待在這特別的一天與您相聚，共同留下美好的回憶！❤️</p>
   </footer>
 
-  <!-- Share Modal -->
+  <!-- Modals & Toasts -->
   <div id="shareModal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm">
     <div class="glass-card bg-white rounded-3xl p-6 max-w-xs w-full text-center shadow-2xl">
       <div class="w-12 h-12 rounded-full bg-wedding-lightSky text-wedding-blue mx-auto flex items-center justify-center text-xl mb-3">
         <i class="fa-solid fa-share-nodes"></i>
       </div>
       <h3 class="text-lg font-bold font-serif text-wedding-deep mb-1">分享喜帖邀請</h3>
-      <p class="text-xs text-gray-500 mb-4">將瑋廷與惠穎的結婚喜訊傳給好友</p>
-
+      <p class="text-xs text-gray-500 mb-4">將結婚喜訊傳給好友</p>
       <div class="space-y-2">
         <button onclick="copyCurrentUrl()" class="w-full py-2.5 px-4 bg-wedding-blue text-white text-xs font-semibold rounded-xl hover:bg-wedding-deep transition flex items-center justify-center gap-2">
           <i class="fa-regular fa-copy"></i> 複製喜帖連結
         </button>
-        <button onclick="closeShareModal()" class="w-full py-2 text-xs text-gray-500 hover:text-gray-700">
-          關閉
-        </button>
+        <button onclick="closeShareModal()" class="w-full py-2 text-xs text-gray-500 hover:text-gray-700">關閉</button>
       </div>
     </div>
   </div>
 
-  <!-- Toast Notification -->
   <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-wedding-deep/90 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl z-50 pointer-events-none opacity-0 transition-opacity duration-300 flex items-center gap-2">
     <i class="fa-solid fa-circle-check text-wedding-gold"></i>
-    <span id="toastMsg">已複製</span>
+    <span id="toastMsg">訊息</span>
   </div>
 
   <script>
@@ -534,13 +485,10 @@
 
     for (let i = 0; i < petalCount; i++) {
       petals.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
+        x: Math.random() * width, y: Math.random() * height,
         size: Math.random() * 8 + 5,
-        speedY: Math.random() * 1.2 + 0.6,
-        speedX: Math.random() * 1 - 0.5,
-        angle: Math.random() * 360,
-        spin: (Math.random() - 0.5) * 0.04,
+        speedY: Math.random() * 1.2 + 0.6, speedX: Math.random() * 1 - 0.5,
+        angle: Math.random() * 360, spin: (Math.random() - 0.5) * 0.04,
         color: colors[Math.floor(Math.random() * colors.length)]
       });
     }
@@ -549,27 +497,16 @@
       ctx.clearRect(0, 0, width, height);
       for (let p of petals) {
         ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.angle);
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = 0.55;
-
-        // Draw oval petal shape
+        ctx.translate(p.x, p.y); ctx.rotate(p.angle);
+        ctx.fillStyle = p.color; ctx.globalAlpha = 0.55;
         ctx.beginPath();
         ctx.moveTo(0, 0);
         ctx.quadraticCurveTo(p.size, -p.size, p.size * 1.6, 0);
         ctx.quadraticCurveTo(p.size, p.size, 0, 0);
-        ctx.fill();
-        ctx.restore();
+        ctx.fill(); ctx.restore();
 
-        p.y += p.speedY;
-        p.x += Math.sin(p.angle) * 0.8 + p.speedX;
-        p.angle += p.spin;
-
-        if (p.y > height + 20) {
-          p.y = -20;
-          p.x = Math.random() * width;
-        }
+        p.y += p.speedY; p.x += Math.sin(p.angle) * 0.8 + p.speedX; p.angle += p.spin;
+        if (p.y > height + 20) { p.y = -20; p.x = Math.random() * width; }
         if (p.x > width + 20) p.x = -20;
         if (p.x < -20) p.x = width + 20;
       }
@@ -577,267 +514,27 @@
     }
     drawPetals();
 
+    /* Countdown */
     const weddingDate = new Date('2026-10-10T12:00:00+08:00').getTime();
-
     function updateCountdown() {
-      const now = new Date().getTime();
-      const diff = weddingDate - now;
-
+      const diff = weddingDate - new Date().getTime();
       if (diff > 0) {
-        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-        document.getElementById('countDays').innerText = days.toString().padStart(2, '0');
-        document.getElementById('countHours').innerText = hours.toString().padStart(2, '0');
-        document.getElementById('countMins').innerText = mins.toString().padStart(2, '0');
-        document.getElementById('countSecs').innerText = secs.toString().padStart(2, '0');
+        document.getElementById('countDays').innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+        document.getElementById('countHours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+        document.getElementById('countMins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+        document.getElementById('countSecs').innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
       } else {
-        document.getElementById('countDays').innerText = "00";
-        document.getElementById('countHours').innerText = "00";
-        document.getElementById('countMins').innerText = "00";
-        document.getElementById('countSecs').innerText = "00";
+        ['countDays','countHours','countMins','countSecs'].forEach(id => document.getElementById(id).innerText = "00");
       }
     }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    setInterval(updateCountdown, 1000); updateCountdown();
 
-    /* 幾分之幾 (鋼琴版) 高相容度音樂播放器 */
+    /* 純淨 MP3 音樂播放控制（Jesse T 鋼琴版） */
     const bgAudio = document.getElementById('bgAudio');
     const musicToggleBtn = document.getElementById('musicToggleBtn');
     const musicIcon = document.getElementById('musicIcon');
     const musicDot = document.getElementById('musicDot');
     let isPlaying = false;
-    let audioMode = 'none'; // 'local' 或 'synth'
-
-    // Web Audio API 浪漫鋼琴合成器：免外部串流與授權阻擋，點擊立即演奏《幾分之幾》
-    const PianoSynthesizer = {
-      ctx: null,
-      isPlaying: false,
-      timer: null,
-      bpm: 68,
-      masterGain: null,
-      delayNode: null,
-
-      init() {
-        if (!this.ctx) {
-          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-          this.ctx = new AudioContextClass();
-
-          this.masterGain = this.ctx.createGain();
-          this.masterGain.gain.value = 0.42;
-
-          // 浪漫婚禮空間殘響與回音效果 (Acoustic Hall Delay)
-          this.delayNode = this.ctx.createDelay();
-          this.delayNode.delayTime.value = 0.28;
-
-          const feedback = this.ctx.createGain();
-          feedback.gain.value = 0.24;
-
-          const filter = this.ctx.createBiquadFilter();
-          filter.type = 'lowpass';
-          filter.frequency.value = 1600;
-
-          this.delayNode.connect(filter);
-          filter.connect(feedback);
-          feedback.connect(this.delayNode);
-          this.delayNode.connect(this.masterGain);
-
-          this.masterGain.connect(this.ctx.destination);
-        }
-        if (this.ctx.state === 'suspended') {
-          this.ctx.resume();
-        }
-      },
-
-      playKey(freq, time, duration, velocity = 0.7) {
-        if (!this.ctx || !freq) return;
-
-        // 溫暖鋼琴琴弦泛音多重振盪器
-        const osc1 = this.ctx.createOscillator();
-        const osc2 = this.ctx.createOscillator();
-        const oscSparkle = this.ctx.createOscillator();
-
-        osc1.type = 'triangle';
-        osc1.frequency.setValueAtTime(freq, time);
-
-        osc2.type = 'sine';
-        osc2.frequency.setValueAtTime(freq, time);
-
-        oscSparkle.type = 'sine';
-        oscSparkle.frequency.setValueAtTime(freq * 2, time);
-
-        // 木質鋼琴音箱低通濾波
-        const filter = this.ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(Math.min(freq * 3.5, 3000), time);
-        filter.frequency.exponentialRampToValueAtTime(Math.max(freq * 1.1, 280), time + duration);
-
-        // 自然琴聲衰減包絡 (ADSR Envelope)
-        const gainNode = this.ctx.createGain();
-        const peak = velocity * 0.26;
-        gainNode.gain.setValueAtTime(0.0001, time);
-        gainNode.gain.exponentialRampToValueAtTime(peak, time + 0.015);
-        gainNode.gain.exponentialRampToValueAtTime(peak * 0.6, time + 0.25);
-        gainNode.gain.exponentialRampToValueAtTime(0.0001, time + duration);
-
-        const sparkleGain = this.ctx.createGain();
-        sparkleGain.gain.setValueAtTime(peak * 0.15, time);
-        sparkleGain.gain.exponentialRampToValueAtTime(0.0001, time + 0.2);
-
-        osc1.connect(filter);
-        osc2.connect(filter);
-        oscSparkle.connect(sparkleGain);
-        sparkleGain.connect(filter);
-
-        filter.connect(gainNode);
-        gainNode.connect(this.masterGain);
-        gainNode.connect(this.delayNode);
-
-        osc1.start(time);
-        osc2.start(time);
-        oscSparkle.start(time);
-
-        osc1.stop(time + duration + 0.1);
-        osc2.stop(time + duration + 0.1);
-        oscSparkle.stop(time + duration + 0.1);
-      },
-
-      // 音名對應頻率
-      NOTES: {
-        'C2': 65.41, 'D2': 73.42, 'E2': 82.41, 'F2': 87.31, 'G2': 98.00, 'A2': 110.00, 'B2': 123.47,
-        'C3': 130.81, 'D3': 146.83, 'E3': 164.81, 'F3': 174.61, 'G3': 196.00, 'A3': 220.00, 'B3': 246.94,
-        'C4': 261.63, 'D4': 293.66, 'E4': 329.63, 'F4': 349.23, 'G4': 392.00, 'A4': 440.00, 'B4': 493.88,
-        'C5': 523.25, 'D5': 587.33, 'E5': 659.25, 'F5': 698.46, 'G5': 783.99, 'A5': 880.00
-      },
-
-      // 《幾分之幾》鋼琴樂譜（完整滾動伴奏＋主旋律，32 拍浪漫循環）
-      getScore() {
-        return [
-          // 第 1 小節 (C 和弦)：如果我能夠
-          { beat: 0.0, note: 'C3', dur: 1.8, vel: 0.5 },
-          { beat: 0.5, note: 'E4', dur: 0.5, vel: 0.75 },
-          { beat: 1.0, note: 'G3', dur: 1.0, vel: 0.4 },
-          { beat: 1.0, note: 'F4', dur: 0.5, vel: 0.75 },
-          { beat: 1.5, note: 'G4', dur: 0.9, vel: 0.8 },
-          { beat: 2.0, note: 'C4', dur: 1.2, vel: 0.4 },
-          { beat: 2.5, note: 'C5', dur: 1.4, vel: 0.9 },
-          { beat: 3.0, note: 'E4', dur: 0.8, vel: 0.4 },
-
-          // 第 2 小節 (G/B)：擁有幾分之幾的你
-          { beat: 4.0, note: 'B2', dur: 1.8, vel: 0.5 },
-          { beat: 4.5, note: 'B4', dur: 0.5, vel: 0.8 },
-          { beat: 5.0, note: 'G3', dur: 1.0, vel: 0.4 },
-          { beat: 5.0, note: 'A4', dur: 0.5, vel: 0.8 },
-          { beat: 5.5, note: 'G4', dur: 0.9, vel: 0.85 },
-          { beat: 6.0, note: 'D4', dur: 1.0, vel: 0.4 },
-          { beat: 6.5, note: 'F4', dur: 0.5, vel: 0.75 },
-          { beat: 7.0, note: 'G4', dur: 0.8, vel: 0.4 },
-          { beat: 7.0, note: 'E4', dur: 0.5, vel: 0.75 },
-
-          // 第 3 小節 (Am7)：溫柔長音延展
-          { beat: 8.0, note: 'A2', dur: 2.0, vel: 0.5 },
-          { beat: 8.0, note: 'F4', dur: 0.5, vel: 0.8 },
-          { beat: 8.5, note: 'G4', dur: 2.5, vel: 0.85 },
-          { beat: 9.0, note: 'E3', dur: 1.0, vel: 0.4 },
-          { beat: 10.0, note: 'A3', dur: 1.0, vel: 0.4 },
-          { beat: 11.0, note: 'C4', dur: 1.0, vel: 0.4 },
-
-          // 第 4 小節 (Em/G)：我會把所有
-          { beat: 12.0, note: 'G2', dur: 1.8, vel: 0.5 },
-          { beat: 12.0, note: 'F4', dur: 0.5, vel: 0.75 },
-          { beat: 12.5, note: 'E4', dur: 0.5, vel: 0.75 },
-          { beat: 13.0, note: 'E3', dur: 1.0, vel: 0.4 },
-          { beat: 13.0, note: 'D4', dur: 0.5, vel: 0.75 },
-          { beat: 13.5, note: 'C4', dur: 0.5, vel: 0.75 },
-          { beat: 14.0, note: 'G3', dur: 1.0, vel: 0.4 },
-          { beat: 14.0, note: 'D4', dur: 0.7, vel: 0.8 },
-          { beat: 14.7, note: 'E4', dur: 0.7, vel: 0.8 },
-          { beat: 15.0, note: 'B3', dur: 0.8, vel: 0.4 },
-
-          // 第 5 小節 (Fmaj7)：都給你
-          { beat: 16.0, note: 'F2', dur: 2.0, vel: 0.55 },
-          { beat: 16.0, note: 'C4', dur: 2.2, vel: 0.85 },
-          { beat: 17.0, note: 'C3', dur: 1.0, vel: 0.4 },
-          { beat: 18.0, note: 'F3', dur: 1.0, vel: 0.4 },
-          { beat: 18.5, note: 'E4', dur: 0.5, vel: 0.75 },
-          { beat: 19.0, note: 'A3', dur: 0.8, vel: 0.4 },
-          { beat: 19.0, note: 'F4', dur: 0.5, vel: 0.75 },
-          { beat: 19.5, note: 'G4', dur: 0.9, vel: 0.85 },
-
-          // 第 6 小節 (Em7)：那一天你走進了 我的生命
-          { beat: 20.0, note: 'E2', dur: 1.8, vel: 0.5 },
-          { beat: 20.5, note: 'C5', dur: 0.9, vel: 0.9 },
-          { beat: 21.0, note: 'B2', dur: 1.0, vel: 0.4 },
-          { beat: 21.5, note: 'B4', dur: 0.5, vel: 0.8 },
-          { beat: 22.0, note: 'E3', dur: 1.0, vel: 0.4 },
-          { beat: 22.0, note: 'A4', dur: 0.5, vel: 0.8 },
-          { beat: 22.5, note: 'G4', dur: 1.3, vel: 0.85 },
-          { beat: 23.0, note: 'G3', dur: 0.8, vel: 0.4 },
-
-          // 第 7 小節 (Dm7)：謝謝你成為了
-          { beat: 24.0, note: 'D2', dur: 1.8, vel: 0.5 },
-          { beat: 24.5, note: 'F4', dur: 0.5, vel: 0.8 },
-          { beat: 25.0, note: 'A2', dur: 1.0, vel: 0.4 },
-          { beat: 25.0, note: 'E4', dur: 0.5, vel: 0.75 },
-          { beat: 25.5, note: 'D4', dur: 0.5, vel: 0.75 },
-          { beat: 26.0, note: 'D3', dur: 1.0, vel: 0.4 },
-          { beat: 26.0, note: 'C4', dur: 0.5, vel: 0.75 },
-          { beat: 26.5, note: 'E4', dur: 0.7, vel: 0.8 },
-          { beat: 27.0, note: 'F3', dur: 0.8, vel: 0.4 },
-          { beat: 27.2, note: 'D4', dur: 0.7, vel: 0.8 },
-
-          // 第 8 小節 (G7)：我的幾分之幾 (溫暖落點)
-          { beat: 28.0, note: 'G2', dur: 2.8, vel: 0.55 },
-          { beat: 28.0, note: 'C4', dur: 2.5, vel: 0.9 },
-          { beat: 29.0, note: 'D3', dur: 1.0, vel: 0.4 },
-          { beat: 30.0, note: 'F3', dur: 1.0, vel: 0.4 },
-          { beat: 31.0, note: 'B3', dur: 0.9, vel: 0.4 }
-        ];
-      },
-
-      start() {
-        this.init();
-        this.isPlaying = true;
-        const beatSec = 60 / this.bpm;
-        const totalBeats = 32;
-        const loopDuration = totalBeats * beatSec;
-        const score = this.getScore();
-
-        const scheduleLoop = (startTime) => {
-          if (!this.isPlaying) return;
-          for (let item of score) {
-            const noteTime = startTime + item.beat * beatSec;
-            const freq = this.NOTES[item.note];
-            this.playKey(freq, noteTime, item.dur * beatSec, item.vel);
-          }
-          this.timer = setTimeout(() => {
-            if (this.isPlaying) {
-              scheduleLoop(startTime + loopDuration);
-            }
-          }, (loopDuration - 0.5) * 1000);
-        };
-
-        const now = this.ctx.currentTime + 0.05;
-        scheduleLoop(now);
-      },
-
-      stop() {
-        this.isPlaying = false;
-        if (this.timer) {
-          clearTimeout(this.timer);
-          this.timer = null;
-        }
-        if (this.ctx && this.masterGain) {
-          this.masterGain.gain.setValueAtTime(this.masterGain.gain.value, this.ctx.currentTime);
-          this.masterGain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
-          setTimeout(() => {
-            if (this.masterGain) this.masterGain.gain.value = 0.42;
-          }, 350);
-        }
-      }
-    };
 
     function setMusicUI(playing) {
       isPlaying = playing;
@@ -850,52 +547,36 @@
       }
     }
 
-    async function toggleMusic() {
+    function toggleMusic() {
+      if (!bgAudio) return;
+
       if (isPlaying) {
-        // 暫停音樂
-        if (audioMode === 'local' && bgAudio) {
-          bgAudio.pause();
-        } else {
-          PianoSynthesizer.stop();
-        }
+        bgAudio.pause();
         setMusicUI(false);
         showToast('音樂已暫停');
       } else {
-        // 優先嘗試本地 MP3 檔案；若無檔案則直接啟動鋼琴演奏
-        let startedLocal = false;
-        if (bgAudio) {
-          try {
-            await bgAudio.play();
-            startedLocal = true;
-            audioMode = 'local';
+        const playPromise = bgAudio.play();
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
             setMusicUI(true);
-            showToast('🎶 播放音樂：幾分之幾 (鋼琴版)');
-            return;
-          } catch(e) {
-            // 本地尚無音檔，轉由 Web Audio 鋼琴引擎無縫接管
-          }
+            showToast('🎶 播放音樂：幾分之幾 (Jesse T 鋼琴版)');
+          }).catch(err => {
+            console.warn('播放被阻擋或找不到音檔', err);
+            setMusicUI(false);
+            showToast('請確認已放入 MP3 音檔 (jesse_t_you_complete_me.mp3 或 bgm.mp3)');
+          });
         }
-
-        // 啟動內建鋼琴演奏
-        audioMode = 'synth';
-        PianoSynthesizer.start();
-        setMusicUI(true);
-        showToast('🎶 播放音樂：幾分之幾 (鋼琴演奏版)');
       }
     }
 
     musicToggleBtn.addEventListener('click', toggleMusic);
 
+    // Utilities
     function showToast(msg) {
       const toast = document.getElementById('toast');
-      const toastMsg = document.getElementById('toastMsg');
-      toastMsg.innerText = msg;
-      toast.classList.remove('opacity-0');
-      toast.classList.add('opacity-100');
-      setTimeout(() => {
-        toast.classList.remove('opacity-100');
-        toast.classList.add('opacity-0');
-      }, 2400);
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('opacity-0'); toast.classList.add('opacity-100');
+      setTimeout(() => { toast.classList.remove('opacity-100'); toast.classList.add('opacity-0'); }, 2400);
     }
 
     function copyToClipboard(text, successMsg) {
@@ -915,31 +596,26 @@
     }
 
     function copyCurrentUrl() {
-      copyToClipboard(window.location.href, '喜帖網址已複製，可傳送給好友！');
+      copyToClipboard(window.location.href, '喜帖網址已複製！');
       closeShareModal();
     }
-
-    // Share Modal
+    
     document.getElementById('shareBtn').addEventListener('click', () => {
       document.getElementById('shareModal').classList.remove('hidden');
     });
     function closeShareModal() {
       document.getElementById('shareModal').classList.add('hidden');
     }
-
-    // Add to Google Calendar Link
+    
     function addToGoogleCalendar() {
       const title = encodeURIComponent("顏瑋廷 & 楊惠穎 浪漫婚宴");
       const details = encodeURIComponent("誠摯邀請您蒞臨見證！10/10（六）12:00 婚禮午宴（小米學堂戶外操場搭篷）。前一日10/9 19:00有排灣族單身Party。期待相聚！❤️");
       const location = encodeURIComponent("小米學堂操場 (臺東縣金峰鄉歷坵村42之2號)");
-      const dates = "20261010T040000Z/20261010T073000Z"; // UTC time (approx 12:00 ~ 15:30 Taiwan time)
-      const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
-      window.open(url, '_blank');
+      const dates = "20261010T040000Z/20261010T073000Z";
+      window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`, '_blank');
     }
 
-    // Photo Loading Handlers
     function handleImageError(img) {
-      // Hide broken image and show clear upload/preview box without any stranger images
       img.style.display = 'none';
       const placeholder = document.getElementById('photoPlaceholder');
       if (placeholder) {
