@@ -113,7 +113,7 @@
 </head>
 <body class="bg-pattern min-h-screen relative selection:bg-wedding-sky/30">
 
-  <!-- Background Music Element (直接指定 bgm.mp3，加上 playsinline 配合 iOS 規範) -->
+  <!-- Background Music Element -->
   <audio id="bgAudio" src="bgm.mp3" preload="auto" loop playsinline webkit-playsinline></audio>
 
   <!-- Floating Falling Petals Canvas -->
@@ -479,7 +479,7 @@
     </div>
   </div>
 
-  <!-- Toast Notification -->
+  <!-- Toast Diagnostic Notification -->
   <div id="toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-wedding-deep/95 text-white text-xs px-5 py-3 rounded-2xl shadow-2xl z-50 pointer-events-none opacity-0 transition-opacity duration-300 flex items-center gap-2 max-w-[90vw] text-center leading-relaxed">
     <i id="toastIcon" class="fa-solid fa-music text-wedding-gold flex-shrink-0"></i>
     <span id="toastMsg">訊息</span>
@@ -548,7 +548,7 @@
     setInterval(updateCountdown, 1000); updateCountdown();
 
     /* ========================================================
-       Direct & Robust iOS Audio Controller (同步觸發，零延遲)
+       Robust Mobile Audio Controller with Diagnostic Toast
        ======================================================== */
     const bgAudio = document.getElementById('bgAudio');
     const musicToggleBtn = document.getElementById('musicToggleBtn');
@@ -565,44 +565,60 @@
       }
     }
 
-    function toggleMusic(e) {
-      if (e) {
-        e.preventDefault();
+    // 監聽進度更新：若進度在跑，代表音訊正在輸出
+    bgAudio.addEventListener('timeupdate', () => {
+      if (!bgAudio.paused && bgAudio.currentTime > 0) {
+        setMusicUI(true);
       }
+    });
 
+    // 監聽錯誤回報
+    bgAudio.addEventListener('error', (e) => {
+      setMusicUI(false);
+      const err = bgAudio.error;
+      let reason = '讀取錯誤';
+      if (err) {
+        if (err.code === 3) reason = '解碼失敗 (請確認MP3為標準格式)';
+        else if (err.code === 4) reason = '找不到 bgm.mp3 檔案';
+        else reason = `錯誤代碼 ${err.code}`;
+      }
+      showToast(`❌ ${reason}`, 'fa-circle-exclamation', 5000);
+    });
+
+    function toggleMusic() {
       // 若目前正在播放，執行暫停
       if (!bgAudio.paused) {
         bgAudio.pause();
         setMusicUI(false);
-        showToast('音樂已暫停', 'fa-pause');
+        showToast('⏸️ 音樂已暫停', 'fa-pause');
         return;
       }
 
-      // 關鍵：在使用者點擊的第一時間「立即同步」呼叫 play()，絕不經過非同步等待
-      setMusicUI(true);
+      // 解鎖音量與非靜音
+      bgAudio.muted = false;
+      bgAudio.volume = 1.0;
+
+      // 同步觸發播放（絕無 await / preventDefault）
       const playPromise = bgAudio.play();
 
       if (playPromise !== undefined) {
         playPromise.then(() => {
-          showToast('🎶 正在播放背景音樂', 'fa-music');
+          setMusicUI(true);
+          const cur = Math.floor(bgAudio.currentTime);
+          showToast(`🎶 正在播放 (進度 ${cur}秒) - 若無聲音請將「控制中心媒體音量」拉大`, 'fa-music', 4500);
         }).catch((err) => {
-          console.error('Audio play failed:', err);
           setMusicUI(false);
-          // 若有任何檔名大小寫或讀取問題，精準跳出提示
-          showToast('無法播放音檔，請確認 GitHub 已上傳小寫 bgm.mp3', 'fa-triangle-exclamation');
+          console.error('Audio play failed:', err);
+          showToast(`❌ 播放受阻: ${err.name} (請在無痕模式重試)`, 'fa-triangle-exclamation', 5000);
         });
       }
     }
-
-    // 監聽播放狀態自動同步圖示
-    bgAudio.addEventListener('playing', () => setMusicUI(true));
-    bgAudio.addEventListener('pause', () => setMusicUI(false));
 
     // 綁定點擊事件
     musicToggleBtn.addEventListener('click', toggleMusic);
 
     // Utilities
-    function showToast(msg, iconClass = 'fa-circle-check') {
+    function showToast(msg, iconClass = 'fa-circle-check', duration = 3000) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toastMsg');
       const toastIcon = document.getElementById('toastIcon');
@@ -617,7 +633,7 @@
       window.toastTimer = setTimeout(() => { 
         toast.classList.remove('opacity-100'); 
         toast.classList.add('opacity-0'); 
-      }, 3000);
+      }, duration);
     }
 
     function copyToClipboard(text, successMsg) {
