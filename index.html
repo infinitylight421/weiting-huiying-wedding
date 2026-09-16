@@ -2,7 +2,7 @@
 <html lang="zh-TW" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>我們結婚了！顏瑋廷 & 楊惠穎 婚禮邀請函</title>
   
   <!-- Google Fonts: Cormorant Garamond, Cinzel, Noto Serif TC -->
@@ -62,7 +62,7 @@
 
     /* Elegant glass effect */
     .glass-card {
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.6);
@@ -77,7 +77,7 @@
       width: 100vw;
       height: 100vh;
       pointer-events: none;
-      z-index: 40;
+      z-index: 30;
     }
 
     /* Pulsing gold glow */
@@ -100,33 +100,50 @@
     .smooth-card:hover {
       transform: translateY(-4px);
     }
+
+    /* Rotating record animation */
+    @keyframes disc-spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .spinning-disc {
+      animation: disc-spin 3.5s linear infinite;
+    }
   </style>
 </head>
 <body class="bg-pattern min-h-screen relative selection:bg-wedding-sky/30">
 
-  <!-- Background Music Audio Element (讀取同資料夾中的 Jesse T MP3) -->
-  <audio id="bgAudio" preload="auto" loop playsinline>
-    <source src="jesse_t_you_complete_me.mp3" type="audio/mpeg">
-    <source src="bgm.mp3" type="audio/mpeg">
-    <source src="you_complete_me.mp3" type="audio/mpeg">
-  </audio>
+  <!-- Background Music Element (直接指定 bgm.mp3，加上 playsinline 配合 iOS 規範) -->
+  <audio id="bgAudio" src="bgm.mp3" preload="auto" loop playsinline webkit-playsinline></audio>
 
   <!-- Floating Falling Petals Canvas -->
   <canvas id="petal-canvas"></canvas>
 
   <!-- Top Floating Controls -->
-  <div class="fixed top-4 right-4 z-50 flex items-center space-x-2">
+  <div class="fixed top-4 right-4 z-50 flex items-center space-x-2.5">
     <!-- Music Player Toggle -->
-    <div class="relative group">
-      <button id="musicToggleBtn" class="w-11 h-11 rounded-full bg-white/95 text-wedding-blue shadow-lg border border-wedding-sky/30 flex items-center justify-center transition-all hover:scale-105 active:scale-95" title="播放/暫停 Jesse T 婚禮鋼琴曲">
-        <i id="musicIcon" class="fa-solid fa-compact-disc text-xl transition-colors duration-300"></i>
+    <div class="relative">
+      <button 
+        id="musicToggleBtn" 
+        type="button"
+        class="w-12 h-12 rounded-full bg-white/95 text-wedding-blue shadow-xl border border-wedding-sky/40 flex items-center justify-center transition-transform active:scale-90 cursor-pointer touch-manipulation" 
+        title="播放/暫停婚禮鋼琴曲"
+        aria-label="播放音樂"
+      >
+        <i id="musicIcon" class="fa-solid fa-compact-disc text-2xl transition-colors duration-300"></i>
       </button>
-      <span id="musicDot" class="hidden absolute -top-0.5 -right-0.5 w-3 h-3 bg-wedding-rose rounded-full border-2 border-white animate-pulse"></span>
+      <span id="musicDot" class="hidden absolute -top-0.5 -right-0.5 w-3 h-3 bg-wedding-rose rounded-full border-2 border-white animate-pulse pointer-events-none"></span>
     </div>
 
     <!-- Share Button -->
-    <button id="shareBtn" class="w-11 h-11 rounded-full bg-white/90 text-wedding-gold shadow-lg border border-wedding-goldLight flex items-center justify-center transition-all hover:scale-105 active:scale-95" title="分享喜帖">
-      <i class="fa-solid fa-share-nodes text-base"></i>
+    <button 
+      id="shareBtn" 
+      type="button"
+      class="w-12 h-12 rounded-full bg-white/95 text-wedding-gold shadow-xl border border-wedding-goldLight/60 flex items-center justify-center transition-transform active:scale-90 cursor-pointer touch-manipulation" 
+      title="分享喜帖"
+      aria-label="分享喜帖"
+    >
+      <i class="fa-solid fa-share-nodes text-lg"></i>
     </button>
   </div>
 
@@ -149,7 +166,7 @@
   </div>
 
   <!-- Hero Section -->
-  <header class="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 pt-12 pb-16 overflow-hidden">
+  <header class="relative min-h-[92vh] flex flex-col items-center justify-center text-center px-4 pt-16 pb-16 overflow-hidden">
     <div class="mb-4 inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/80 border border-wedding-sky/40 text-wedding-blue text-xs tracking-widest uppercase shadow-sm">
       <i class="fa-solid fa-sparkles text-wedding-gold"></i>
       <span>Wedding Invitation • 2026.10.10</span>
@@ -191,7 +208,7 @@
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 pointer-events-none"></div>
       
       <!-- Overlay couple quote (dele 花語) -->
-      <div class="absolute bottom-6 inset-x-6 text-white text-center">
+      <div class="absolute bottom-6 inset-x-6 text-white text-center pointer-events-none">
         <p class="font-display italic text-xl tracking-wide text-amber-200">" 能與你相遇，我打從心底感到喜悅 "</p>
         <p class="text-xs text-white/90 mt-1">2026.10.09 排灣族單身夜 ✦ 10.10 婚禮午宴</p>
       </div>
@@ -462,8 +479,9 @@
     </div>
   </div>
 
-  <div id="toast" class="fixed top-6 left-1/2 transform -translate-x-1/2 bg-wedding-deep/90 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl z-50 pointer-events-none opacity-0 transition-opacity duration-300 flex items-center gap-2">
-    <i class="fa-solid fa-circle-check text-wedding-gold"></i>
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed top-8 left-1/2 transform -translate-x-1/2 bg-wedding-deep/95 text-white text-xs px-5 py-3 rounded-2xl shadow-2xl z-50 pointer-events-none opacity-0 transition-opacity duration-300 flex items-center gap-2 max-w-[90vw] text-center leading-relaxed">
+    <i id="toastIcon" class="fa-solid fa-music text-wedding-gold flex-shrink-0"></i>
     <span id="toastMsg">訊息</span>
   </div>
 
@@ -479,7 +497,7 @@
       height = canvas.height = window.innerHeight;
     });
 
-    const petalCount = 24;
+    const petalCount = 22;
     const petals = [];
     const colors = ['#E6A4B4', '#F3D7CA', '#FFF5E4', '#B4D4FF', '#A0C49D'];
 
@@ -529,54 +547,77 @@
     }
     setInterval(updateCountdown, 1000); updateCountdown();
 
-    /* 純淨 MP3 音樂播放控制（Jesse T 鋼琴版） */
+    /* ========================================================
+       Direct & Robust iOS Audio Controller (同步觸發，零延遲)
+       ======================================================== */
     const bgAudio = document.getElementById('bgAudio');
     const musicToggleBtn = document.getElementById('musicToggleBtn');
     const musicIcon = document.getElementById('musicIcon');
     const musicDot = document.getElementById('musicDot');
-    let isPlaying = false;
 
-    function setMusicUI(playing) {
-      isPlaying = playing;
-      if (playing) {
-        musicIcon.classList.add('text-wedding-rose', 'animate-spin');
+    function setMusicUI(isPlaying) {
+      if (isPlaying) {
+        musicIcon.classList.add('text-wedding-rose', 'spinning-disc');
         if (musicDot) musicDot.classList.remove('hidden');
       } else {
-        musicIcon.classList.remove('text-wedding-rose', 'animate-spin');
+        musicIcon.classList.remove('text-wedding-rose', 'spinning-disc');
         if (musicDot) musicDot.classList.add('hidden');
       }
     }
 
-    function toggleMusic() {
-      if (!bgAudio) return;
+    function toggleMusic(e) {
+      if (e) {
+        e.preventDefault();
+      }
 
-      if (isPlaying) {
+      // 若目前正在播放，執行暫停
+      if (!bgAudio.paused) {
         bgAudio.pause();
         setMusicUI(false);
-        showToast('音樂已暫停');
-      } else {
-        const playPromise = bgAudio.play();
-        if (playPromise !== undefined) {
-          playPromise.then(() => {
-            setMusicUI(true);
-            showToast('🎶 播放音樂：幾分之幾 (Jesse T 鋼琴版)');
-          }).catch(err => {
-            console.warn('播放被阻擋或找不到音檔', err);
-            setMusicUI(false);
-            showToast('請確認已放入 MP3 音檔 (jesse_t_you_complete_me.mp3 或 bgm.mp3)');
-          });
-        }
+        showToast('音樂已暫停', 'fa-pause');
+        return;
+      }
+
+      // 關鍵：在使用者點擊的第一時間「立即同步」呼叫 play()，絕不經過非同步等待
+      setMusicUI(true);
+      const playPromise = bgAudio.play();
+
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          showToast('🎶 正在播放背景音樂', 'fa-music');
+        }).catch((err) => {
+          console.error('Audio play failed:', err);
+          setMusicUI(false);
+          // 若有任何檔名大小寫或讀取問題，精準跳出提示
+          showToast('無法播放音檔，請確認 GitHub 已上傳小寫 bgm.mp3', 'fa-triangle-exclamation');
+        });
       }
     }
 
+    // 監聽播放狀態自動同步圖示
+    bgAudio.addEventListener('playing', () => setMusicUI(true));
+    bgAudio.addEventListener('pause', () => setMusicUI(false));
+
+    // 綁定點擊事件
     musicToggleBtn.addEventListener('click', toggleMusic);
 
     // Utilities
-    function showToast(msg) {
+    function showToast(msg, iconClass = 'fa-circle-check') {
       const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.classList.remove('opacity-0'); toast.classList.add('opacity-100');
-      setTimeout(() => { toast.classList.remove('opacity-100'); toast.classList.add('opacity-0'); }, 2400);
+      const toastMsg = document.getElementById('toastMsg');
+      const toastIcon = document.getElementById('toastIcon');
+      
+      toastMsg.innerText = msg;
+      toastIcon.className = `fa-solid ${iconClass} text-wedding-gold flex-shrink-0`;
+      
+      toast.classList.remove('opacity-0'); 
+      toast.classList.add('opacity-100');
+      
+      if (window.toastTimer) clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => { 
+        toast.classList.remove('opacity-100'); 
+        toast.classList.add('opacity-0'); 
+      }, 3000);
     }
 
     function copyToClipboard(text, successMsg) {
@@ -588,9 +629,9 @@
       textarea.select();
       try {
         document.execCommand('copy');
-        showToast(successMsg || '已複製到剪貼簿！');
+        showToast(successMsg || '已複製到剪貼簿！', 'fa-copy');
       } catch (err) {
-        showToast('複製失敗，請手動複製');
+        showToast('複製失敗，請手動複製', 'fa-triangle-exclamation');
       }
       document.body.removeChild(textarea);
     }
