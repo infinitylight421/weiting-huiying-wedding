@@ -78,13 +78,11 @@
       background-position: 0 0, 15px 15px;
     }
 
-    /* Elegant glass effect */
+    /* Elegant clean card without GPU-heavy blur */
     .glass-card {
-      background: rgba(255, 255, 255, 0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      box-shadow: 0 10px 30px -10px rgba(74, 124, 155, 0.15);
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(230, 238, 245, 0.8);
+      box-shadow: 0 10px 30px -10px rgba(74, 124, 155, 0.12);
     }
 
     /* Petal canvas overlay */
@@ -118,8 +116,8 @@
 </head>
 <body class="bg-pattern min-h-screen relative selection:bg-wedding-sky/30">
 
-  <!-- Background Music Audio Element -->
-  <audio id="bgAudio" src="bgm.mp3" preload="auto" loop></audio>
+  <!-- Background Music Audio Element (preload="none" 避免與照片爭搶頻寬與記憶體) -->
+  <audio id="bgAudio" src="bgm.mp3" preload="none" loop></audio>
 
   <!-- Floating Falling Petals Canvas -->
   <canvas id="petal-canvas"></canvas>
@@ -170,14 +168,14 @@
         <span>楊惠穎</span>
       </h1>
       <p class="mt-2 text-sm text-gray-500 font-display tracking-[0.3em] uppercase">Wei-Ting &amp; Hui-Ying</p>
-    </div>
-
-    <!-- Featured Hero Photo Frame (使用版本尾巴打破手機快取) -->
+    <!-- Featured Hero Photo Frame -->
     <div class="relative w-full max-w-sm sm:max-w-md mx-auto aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl border-4 border-white group bg-wedding-sand flex items-center justify-center">
       <img 
         id="heroPhoto"
-        src="1-0026-r-2.jpg?v=wedding" 
+        src="1-0026-r-2.jpg" 
         alt="顏瑋廷與楊惠穎 婚紗照" 
+        loading="eager"
+        decoding="async"
         class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
         onerror="handleImageError(this)"
       />
@@ -491,7 +489,7 @@
       height = canvas.height = window.innerHeight;
     });
 
-    const petalCount = 24;
+    const petalCount = 14;
     const petals = [];
     const colors = ['#E6A4B4', '#F3D7CA', '#FFF5E4', '#B4D4FF', '#A0C49D'];
 
@@ -499,11 +497,11 @@
       petals.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        size: Math.random() * 8 + 5,
-        speedY: Math.random() * 1.2 + 0.6,
-        speedX: Math.random() * 1 - 0.5,
+        size: Math.random() * 7 + 4,
+        speedY: Math.random() * 1.0 + 0.5,
+        speedX: Math.random() * 0.8 - 0.4,
         angle: Math.random() * 360,
-        spin: (Math.random() - 0.5) * 0.04,
+        spin: (Math.random() - 0.5) * 0.03,
         color: colors[Math.floor(Math.random() * colors.length)]
       });
     }
