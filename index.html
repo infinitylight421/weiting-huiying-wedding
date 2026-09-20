@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>我們結婚了！顏瑋廷 & 楊惠穎 婚禮邀請函</title>
   
+  <!-- Open Graph / Link Preview Metadata (解決網址沒有縮圖與標題預覽的問題) -->
+  <meta name="description" content="誠摯邀請您蒞臨顏瑋廷與楊惠穎的婚禮！2026.10.09 排灣族單身歡聚 ✦ 10.10 婚禮午宴（臺東金峰鄉歷坵村）。">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="我們結婚了！顏瑋廷 & 楊惠穎 婚禮邀請函 💍">
+  <meta property="og:description" content="「能與你相遇，我打從心底感到喜悅」誠摯邀請您蒞臨見證我們的幸福時刻！">
+  <meta property="og:image" content="1-0026-r-2.jpg">
+  <meta property="og:image:alt" content="顏瑋廷與楊惠穎 婚紗照">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="我們結婚了！顏瑋廷 & 楊惠穎 婚禮邀請函 💍">
+  <meta name="twitter:description" content="「能與你相遇，我打從心底感到喜悅」誠摯邀請您蒞臨見證我們的幸福時刻！">
+  <meta name="twitter:image" content="1-0026-r-2.jpg">
+
   <!-- Google Fonts: Cormorant Garamond, Cinzel, Noto Serif TC -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -113,7 +127,7 @@
 </head>
 <body class="bg-pattern min-h-screen relative selection:bg-wedding-sky/30">
 
-  <!-- Background Music Element -->
+  <!-- Background Music Element (固定指定 bgm.mp3) -->
   <audio id="bgAudio" src="bgm.mp3" preload="auto" loop playsinline webkit-playsinline></audio>
 
   <!-- Floating Falling Petals Canvas -->
@@ -552,7 +566,7 @@
       if (diff > 0) {
         document.getElementById('countDays').innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
         document.getElementById('countHours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-        document.getElementById('countMins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+        document.getElementById('countMins').innerText = Math.floor((diff % (1000 * 60)) / (1000 * 60)).toString().padStart(2, '0');
         document.getElementById('countSecs').innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
       } else {
         ['countDays','countHours','countMins','countSecs'].forEach(id => document.getElementById(id).innerText = "00");
@@ -650,7 +664,7 @@
           if (isMessenger) {
             showToast('💡 Messenger 限制了聲音，請點右上角「•••」在 Safari 開啟', 'fa-circle-info', 5000);
           } else {
-            showToast('點擊播放失敗，請再試一次', 'fa-triangle-exclamation');
+            showToast('點擊播放失敗，請確認檔案與音量', 'fa-triangle-exclamation');
           }
         });
       }
