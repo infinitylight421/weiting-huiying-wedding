@@ -5,20 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>我們結婚了！顏瑋廷 & 楊惠穎 婚禮邀請函</title>
   
-  <!-- Open Graph / Link Preview Metadata -->
-  <meta name="description" content="誠摯邀請您蒞臨顏瑋廷與楊惠穎的婚禮！2026.10.09 排灣族單身歡聚 ✦ 10.10 婚禮午宴（臺東金峰鄉歷坵村）。">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="我們結婚了！顏瑋廷 & 楊惠穎 婚禮邀請函 💍">
-  <meta property="og:description" content="「能與你相遇，我打從心底感到喜悅」誠摯邀請您蒞臨見證我們的幸福時刻！">
-  <meta property="og:image" content="1-0026-r-2.jpg">
-  <meta property="og:image:alt" content="顏瑋廷與楊惠穎 婚紗照">
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="我們結婚了！顏瑋廷 & 楊惠穎 婚禮邀請函 💍">
-  <meta name="twitter:description" content="「能與你相遇，我打從心底感到喜悅」誠摯邀請您蒞臨見證我們的幸福時刻！">
-  <meta name="twitter:image" content="1-0026-r-2.jpg">
-
   <!-- Google Fonts: Cormorant Garamond, Cinzel, Noto Serif TC -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -127,7 +113,7 @@
 </head>
 <body class="bg-pattern min-h-screen relative selection:bg-wedding-sky/30">
 
-  <!-- Background Music Element (固定指定 bgm.mp3) -->
+  <!-- Background Music Element -->
   <audio id="bgAudio" src="bgm.mp3" preload="auto" loop playsinline webkit-playsinline></audio>
 
   <!-- Floating Falling Petals Canvas -->
@@ -217,16 +203,14 @@
         src="1-0026-r-2.jpg" 
         alt="顏瑋廷與楊惠穎 婚紗照" 
         class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-        onerror="handleHeroImageError(this)"
+        onerror="handleImageError(this)"
       />
-      
-      <!-- Fallback / Sandbox Preview Helper -->
-      <div id="photoPlaceholder" class="hidden absolute inset-0 bg-gradient-to-b from-sky-50 via-wedding-cream to-amber-50 p-6 flex-col items-center justify-center text-wedding-deep z-10">
+      <div id="photoPlaceholder" class="hidden absolute inset-0 bg-gradient-to-b from-sky-50 via-wedding-cream to-amber-50 p-6 flex-col items-center justify-center text-wedding-deep">
         <div class="w-16 h-16 rounded-full bg-wedding-lightSky flex items-center justify-center text-wedding-blue mb-3 shadow-inner">
           <i class="fa-solid fa-image text-2xl"></i>
         </div>
         <h4 class="font-serif font-bold text-base mb-1">顏瑋廷 &amp; 楊惠穎</h4>
-        <p class="text-xs text-gray-500 mb-4 font-mono">1-0026-r-2.jpg</p>
+        <p class="text-xs text-gray-500 mb-4">婚紗相片：1-0026-r-2.jpg</p>
         <label class="px-4 py-2 bg-wedding-blue hover:bg-wedding-deep text-white text-xs font-semibold rounded-full shadow-md cursor-pointer transition flex items-center gap-1.5">
           <i class="fa-solid fa-upload"></i>
           <span>點此載入您的照片預覽</span>
@@ -237,7 +221,7 @@
       <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80 pointer-events-none"></div>
       
       <!-- Overlay couple quote (dele 花語) -->
-      <div class="absolute bottom-6 inset-x-6 text-white text-center pointer-events-none z-20">
+      <div class="absolute bottom-6 inset-x-6 text-white text-center pointer-events-none">
         <p class="font-display italic text-xl tracking-wide text-amber-200">" 能與你相遇，我打從心底感到喜悅 "</p>
         <p class="text-xs text-white/90 mt-1">2026.10.09 排灣族單身夜 ✦ 10.10 婚禮午宴</p>
       </div>
@@ -568,62 +552,13 @@
       if (diff > 0) {
         document.getElementById('countDays').innerText = Math.floor(diff / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
         document.getElementById('countHours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-        document.getElementById('countMins').innerText = Math.floor((diff % (1000 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+        document.getElementById('countMins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
         document.getElementById('countSecs').innerText = Math.floor((diff % (1000 * 60)) / 1000).toString().padStart(2, '0');
       } else {
         ['countDays','countHours','countMins','countSecs'].forEach(id => document.getElementById(id).innerText = "00");
       }
     }
     setInterval(updateCountdown, 1000); updateCountdown();
-
-    /* ========================================================
-       Smart Hero Image Handler (自動容錯與大小寫相容)
-       ======================================================== */
-    const imageCandidates = [
-      '1-0026-r-2.jpg',
-      './1-0026-r-2.jpg',
-      '1-0026-r-2.JPG',
-      './1-0026-r-2.JPG',
-      '1-0026-R-2.jpg',
-      './1-0026-R-2.jpg',
-      '1-0026-R-2.JPG',
-      './1-0026-R-2.JPG',
-      '1-0026-r-2.jpeg',
-      './1-0026-r-2.jpeg'
-    ];
-    let candidateIndex = 0;
-
-    function handleHeroImageError(img) {
-      candidateIndex++;
-      if (candidateIndex < imageCandidates.length) {
-        img.src = imageCandidates[candidateIndex];
-      } else {
-        img.style.display = 'none';
-        const placeholder = document.getElementById('photoPlaceholder');
-        if (placeholder) {
-          placeholder.classList.remove('hidden');
-          placeholder.classList.add('flex');
-        }
-      }
-    }
-
-    function previewLocalPhoto(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = document.getElementById('heroPhoto');
-          img.src = e.target.result;
-          img.style.display = 'block';
-          const placeholder = document.getElementById('photoPlaceholder');
-          if (placeholder) {
-            placeholder.classList.add('hidden');
-            placeholder.classList.remove('flex');
-          }
-        }
-        reader.readAsDataURL(file);
-      }
-    }
 
     /* ========================================================
        Audio Controller with In-App Browser Audio Wake-Up
@@ -665,6 +600,7 @@
       }
     });
 
+    // 喚醒 WebKit AudioContext（穿透 In-App Browser 音訊封鎖核心技巧）
     let wakeAudioCtx = null;
     function wakeAudioSession() {
       try {
@@ -674,6 +610,7 @@
           if (wakeAudioCtx.state === 'suspended') {
             wakeAudioCtx.resume();
           }
+          // 播放極短無聲緩衝區喚醒揚聲器
           const buffer = wakeAudioCtx.createBuffer(1, 1, 22050);
           const source = wakeAudioCtx.createBufferSource();
           source.buffer = buffer;
@@ -693,6 +630,7 @@
         return;
       }
 
+      // 同步強制解除靜音與喚醒
       bgAudio.muted = false;
       bgAudio.volume = 1.0;
       wakeAudioSession();
@@ -712,7 +650,7 @@
           if (isMessenger) {
             showToast('💡 Messenger 限制了聲音，請點右上角「•••」在 Safari 開啟', 'fa-circle-info', 5000);
           } else {
-            showToast('點擊播放失敗，請確認檔案與音量', 'fa-triangle-exclamation');
+            showToast('點擊播放失敗，請再試一次', 'fa-triangle-exclamation');
           }
         });
       }
@@ -773,6 +711,33 @@
       const location = encodeURIComponent("小米學堂操場 (臺東縣金峰鄉歷坵村42之2號)");
       const dates = "20261010T040000Z/20261010T073000Z";
       window.open(`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`, '_blank');
+    }
+
+    function handleImageError(img) {
+      img.style.display = 'none';
+      const placeholder = document.getElementById('photoPlaceholder');
+      if (placeholder) {
+        placeholder.classList.remove('hidden');
+        placeholder.classList.add('flex');
+      }
+    }
+
+    function previewLocalPhoto(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.getElementById('heroPhoto');
+          img.src = e.target.result;
+          img.style.display = 'block';
+          const placeholder = document.getElementById('photoPlaceholder');
+          if (placeholder) {
+            placeholder.classList.add('hidden');
+            placeholder.classList.remove('flex');
+          }
+        }
+        reader.readAsDataURL(file);
+      }
     }
   </script>
 </body>
